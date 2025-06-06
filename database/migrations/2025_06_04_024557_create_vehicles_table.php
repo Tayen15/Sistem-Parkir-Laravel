@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('merk');
             $table->string('nopol');
             $table->integer('thn_beli');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
         });
     }
