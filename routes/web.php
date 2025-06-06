@@ -13,13 +13,14 @@ Route::get('/payment/confirmation/{transaction_id}', [ParkingController::class, 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/parking', [ParkingController::class, 'dashboard'])->name('dashboard');
-    Route::get('/parking/history', [ParkingController::class, 'history'])->name('parking.history');
     Route::patch('/parking/{id}/exit', [ParkingController::class, 'exit'])->name('parking.exit');
 
     Route::get('/parking/{id}/show-payment', [ParkingController::class, 'showPayment'])->name('parking.show_payment');
     Route::post('/parking/{id}/complete-cash', [ParkingController::class, 'completeCashPayment'])->name('parking.complete_cash');
     Route::post('/parking/{id}/generate-qr', [ParkingController::class, 'generateQrPayment'])->name('parking.generate_qr');
     Route::get('/parking/{id}/check-payment-status', [ParkingController::class, 'checkPaymentStatus'])->name('parking.check_payment_status');
+
+    Route::put('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
 
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
