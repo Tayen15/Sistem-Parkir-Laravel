@@ -13,7 +13,7 @@ class VehicleTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $vehicleTypes = [
+        $vehicleTypes = [       
             ['name' => 'mobil', 'fee' => 5000],
             ['name' => 'motor', 'fee' => 2000],
         ];
