@@ -14,8 +14,8 @@ class VehicleTypeSeeder extends Seeder
     public function run(): void
     {
         $vehicleTypes = [
-            ['name' => 'mobil'],
-            ['name' => 'motor'],
+            ['name' => 'mobil', 'fee' => 5000],
+            ['name' => 'motor', 'fee' => 2000],
         ];
 
         VehicleType::insert($vehicleTypes);
