@@ -16,7 +16,7 @@ class AreaParkir extends Model
         return $this->hasMany(Transaction::class, 'area_parkir_id');
     }
 
-    public function kampus()
+    public function campus()
     {
         return $this->belongsTo(Campus::class, 'kampus_id');
     }
