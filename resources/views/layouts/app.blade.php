@@ -1,65 +1,29 @@
 <!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - {{ env('APP_NAME', 'Sistem Parkir Kampus') }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e40af',
-                        secondary: '#64748b'
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Sistem manajemen parkir kampus yang efisien dan modern untuk memudahkan pengelolaan parkir di lingkungan kampus">
+    <meta name="keywords" content="sistem parkir, parkir kampus, manajemen parkir, smart parking, kampus, firtiansyah okta website">
+    <meta name="author" content="{{ env('APP_NAME', 'Sistem Parkir Kampus') }}">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="@yield('title') - {{ env('APP_NAME', 'Sistem Parkir Kampus') }}">
+    <meta property="og:description" content="Sistem manajemen parkir kampus yang efisien dan modern">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-50 font-sans">
     <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-600">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-blue-600 p-2 rounded-lg">
-                        <i class="fas fa-car text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">{{ env('APP_NAME', 'Sistem Parkir Kampus') }}</h1>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    @auth
-                        <div class="text-right">
-                            <p class="text-sm text-gray-600">Selamat datang,</p>
-                            <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
-                            <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
-                        </div>
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
-                        </form>
-                    @else
-                    {{-- <a class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md" href="{{ route('login') }}"><i class="fas fa-sign-in-alt mr-2"></i> Login</a> --}}
-                        <button onclick="showLoginModal()"
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md">
-                            <i class="fas fa-sign-in-alt mr-2"></i> Login
-                        </button>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </header>
+
+    @include('components.header')
 
     <!-- Content -->
     <div class="container mx-auto px-4 py-8">
@@ -67,13 +31,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="text-center">
-                <p class="text-gray-300">© 2025 {{ env('APP_NAME', 'Sistem Parkir Kampus') }}. All right reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.footer')
 
     <!-- Modal Login -->
     <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
@@ -125,25 +83,11 @@
             document.body.style.overflow = "auto";
         }
 
-        function showRegisterModal() {
-            document.getElementById("registerModal").classList.remove("hidden");
-            document.getElementById("registerModal").classList.add("flex");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeRegisterModal() {
-            document.getElementById("registerModal").classList.add("hidden");
-            document.getElementById("registerModal").classList.remove("flex");
-            document.body.style.overflow = "auto";
-        }
-
         document.getElementById("loginModal").addEventListener("click", function(e) {
             if (e.target === this) closeLoginModal();
         });
 
-        document.getElementById("registerModal").addEventListener("click", function(e) {
-            if (e.target === this) closeRegisterModal();
-        });
+
     </script>
     @yield('scripts')
 </body>
