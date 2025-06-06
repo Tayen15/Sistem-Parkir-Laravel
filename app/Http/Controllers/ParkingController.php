@@ -152,9 +152,9 @@ class ParkingController extends Controller
             ->whereHas('vehicle', function ($query) use ($user) {
                 $query->where('pemilik', $user->id); 
             })
-            ->with('vehicle.vehicleType', 'areaParkir') // Eager load relasi
-            ->latest() // Urutkan dari yang terbaru
-            ->take(3) // Ambil 3 riwayat terakhir
+            ->with('vehicle.vehicleType', 'areaParkir') 
+            ->latest()
+            ->take(3) 
             ->get();
 
         $areaParkirs = AreaParkir::with('campus')->get()->map(function ($area) {
@@ -307,18 +307,6 @@ class ParkingController extends Controller
             'status' => 'info',
             'transaction' => $transaction,
         ]);
-    }
-
-
-    public function history()
-    {
-        $user = Auth::user();
-        $pastParkings = $user->vehicles->flatMap->transactions()
-            ->whereNotNull('end')
-            ->latest()
-            ->paginate(10);
-
-        return view('dashboard.history', compact('pastParkings'))->with('layout', 'layouts.guest');
     }
 
     public function login(Request $request)
