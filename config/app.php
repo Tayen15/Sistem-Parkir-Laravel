@@ -65,11 +65,11 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
-    | Application Locale Configuration
+    | Application Locale Configuration  
     |--------------------------------------------------------------------------
     |
     | The application locale determines the default locale that will be used
