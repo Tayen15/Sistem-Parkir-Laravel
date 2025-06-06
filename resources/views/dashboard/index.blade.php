@@ -13,12 +13,87 @@
         </div>
     @endif
 
+    @if (session('success_message'))
+        <div class="mb-8 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+            <p class="font-semibold">Update password Berhasil!</p>
+        </div>
+    @endif
+
     @if ($needsPasswordChange)
         <div class="mb-8 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
             <p class="font-semibold">Peringatan!</p>
             <p>Untuk keamanan, silakan ganti password Anda segera.</p>
+            <button id="openChangePasswordModal" class="mt-2 text-blue-600 hover:underline focus:outline-none">Ganti Password
+                Sekarang</button>
         </div>
     @endif
+
+    <div id="changePasswordModal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Ganti Password Anda</h3>
+
+            @if ($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Gagal mengganti password!</strong>
+                    <ul class="mt-2 list-disc list-inside">
+                        @error('current_password')
+                            <li>{{ $message }}</li>
+                        @enderror
+                        @error('password')
+                            <li>{{ $message }}</li>
+                        @enderror
+                        @error('password_confirmation')
+                            <li>{{ $message }}</li>
+                        @enderror
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('password.update') }}" method="POST" class="space-y-4">
+                @csrf
+                @method('PUT') 
+
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Password Saat
+                        Ini</label>
+                    <input type="password" name="current_password" id="current_password" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 @error('current_password') border-red-500 @enderror">
+                    @error('current_password')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
+                    <input type="password" name="password" id="password" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 @error('password') border-red-500 @enderror">
+                    @error('password')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi
+                        Password Baru</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 @error('password_confirmation') border-red-500 @enderror">
+                    {{-- Error spesifik untuk password_confirmation --}}
+                    @error('password_confirmation')
+                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                    Ganti Password
+                </button>
+            </form>
+
+            <button id="closeChangePasswordModal"
+                class="mt-4 w-full text-gray-500 hover:text-gray-700 text-sm">Tutup</button>
+        </div>
+    </div>
 
     @if (session('success_message_qr'))
         @php
@@ -325,6 +400,27 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            const openChangePasswordModalBtn = document.getElementById('openChangePasswordModal');
+            const closeChangePasswordModalBtn = document.getElementById('closeChangePasswordModal');
+
+            @if ($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'))
+                changePasswordModal.classList.remove('hidden');
+            @endif
+
+            if (openChangePasswordModalBtn) {
+                openChangePasswordModalBtn.addEventListener('click', () => {
+                    changePasswordModal.classList.remove('hidden');
+                });
+            }
+
+            if (closeChangePasswordModalBtn) {
+                closeChangePasswordModalBtn.addEventListener('click', () => {
+                    changePasswordModal.classList.add('hidden');
+                });
+            }
+            
             const activeParkingStart = "{{ $activeParking->start ?? '' }}";
             if (activeParkingStart) {
                 updateDuration(activeParkingStart);
