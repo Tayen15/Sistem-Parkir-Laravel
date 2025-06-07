@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             VehicleTypeSeeder::class,
             CampusSeeder::class,
             AreaParkirSeeder::class,
+            RoleSeeder::class,
         ]);
 
         User::factory()->create([
