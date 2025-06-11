@@ -16,21 +16,15 @@ class AreaParkirSeeder extends Seeder
         $areaParkirs = [
             [
                 'kampus_id' => 1, // Depok
-                'name' => 'Parkir Utama Depok',
+                'name' => 'Parkir Utama Kampus A',
                 'kapasitas' => 100,
-                'keterangan' => 'Dekat Fakultas Teknik',
+                'keterangan' => 'Dekat Kampus A',
             ],
             [
-                'kampus_id' => 1, // Depok
-                'name' => 'Parkir Timur Depok',
+                'kampus_id' => 2, // Depok
+                'name' => 'Parkir Utama Kampus B',
                 'kapasitas' => 50,
-                'keterangan' => 'Dekat Fakultas Ekonomi',
-            ],
-            [
-                'kampus_id' => 2, // Salemba
-                'name' => 'Parkir Salemba Utara',
-                'kapasitas' => 30,
-                'keterangan' => 'Dekat Fakultas Kedokteran',
+                'keterangan' => 'Dekat Kampus B',
             ],
         ];
 

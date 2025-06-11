@@ -15,12 +15,12 @@ class CampusSeeder extends Seeder
     {
         $campuses = [
             [
-                'name' => 'Depok',
-                'alamat' => 'Kampus UI Depok, Jawa Barat, Indonesia',
+                'name' => 'Kampus A',
+                'alamat' => 'Kampus A Cimanggis, Depok, Jawa Barat',
             ],
             [
-                'name' => 'Salemba',
-                'alamat' => 'Kampus UI Salemba, Jakarta Pusat, Indonesia',
+                'name' => 'Kampus B',
+                'alamat' => 'Kampus B Jagakarsa, Jakarta Selatan, DKI Jakarta',
             ],
         ];
 
