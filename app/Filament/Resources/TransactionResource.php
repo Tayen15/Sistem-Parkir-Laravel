@@ -85,8 +85,8 @@ class TransactionResource extends Resource
                     ->mask(RawJs::make('$money($Input)'))
                     ->prefix('Rp')
                     ->stripCharacters(',')
-                    ->dehydrateStateUsing(fn($state) => (float) str_replace(['.', 'Rp', ' '], '', $state))
-                    ->disabled(fn(string $operation): bool => $operation === 'edit'),
+                    ->dehydrateStateUsing(fn($state) => (float) str_replace(['.', 'Rp ', ' '], '', $state))
+                    ->readOnly(),
                 Select::make('status_pembayaran')
                     ->label('Status Pembayaran')
                     ->options([
