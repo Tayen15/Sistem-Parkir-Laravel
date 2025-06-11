@@ -35,7 +35,7 @@ class CampusResource extends Resource
                     ->maxLength(255)
                     ->unique(ignoreRecord: true, table: Campus::class)
                     ->placeholder('Ex: Kampus Utama, Kampus Merdeka'),
-                TextInput::make('address')
+                TextInput::make('alamat')
                     ->required()
                     ->maxLength(255)
                     ->placeholder('Ex: Jl. Raya Bogor KM 10, Depok'),
@@ -49,7 +49,7 @@ class CampusResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('address')
+                TextColumn::make('alamat')
                     ->searchable()
                     ->limit(50),
                 TextColumn::make('created_at')
