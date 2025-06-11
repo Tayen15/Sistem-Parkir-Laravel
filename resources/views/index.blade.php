@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Selamat Datang di')
+@section('title', 'Home')
 
 @section('content')
     <!-- Hero Section -->
@@ -84,9 +84,8 @@
             </div>
             <form action="{{ route('parking.store') }}" method="POST" class="p-8 space-y-6">
                 @csrf
-                <input type="hidden" name="selected_area" id="selected_area" value="{{ old('selected_area') }}">
+                {{-- <input type="hidden" name="selected_area" id="selected_area" value="{{ old('selected_area') }}"> --}}
 
-                {{-- Tampilan Error Umum (opsional, jika ingin menampilkan semua error di satu tempat juga) --}}
                 @if ($errors->any())
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                         role="alert">
