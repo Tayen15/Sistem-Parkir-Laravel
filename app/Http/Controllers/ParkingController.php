@@ -19,6 +19,10 @@ class ParkingController extends Controller
      */
     public function index()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         $areaParkirs = AreaParkir::with('campus')->get()->map(function ($area) {
             $area->available_slots = $area->kapasitas - Transaction::where('area_parkir_id', $area->id)->whereNull('end')->count();
             return $area;
@@ -140,9 +144,8 @@ class ParkingController extends Controller
     {
         $user = Auth::user();
 
-        $activeParking = Transaction::whereNull('end') // Hanya transaksi yang belum selesai
+        $activeParking = Transaction::whereNull('end') 
             ->whereHas('vehicle', function ($query) use ($user) {
-                // Pastikan transaksi terkait dengan kendaraan yang dimiliki user ini
                 $query->where('pemilik', $user->id);
             })
             ->with('vehicle.vehicleType', 'areaParkir') 
