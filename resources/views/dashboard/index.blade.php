@@ -3,6 +3,11 @@
 @section('title', 'Dashboard User')
 
 @section('content')
+
+    @php
+        $needsPasswordChange = Auth::check() ? !Auth::user()->has_changed_password : false;
+    @endphp
+
     @if (session('registration_success'))
         <div class="mb-8 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
             <p class="font-semibold">Registrasi Berhasil!</p>
@@ -52,7 +57,7 @@
 
             <form action="{{ route('password.update') }}" method="POST" class="space-y-4">
                 @csrf
-                @method('PUT') 
+                @method('PUT')
 
                 <div>
                     <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Password Saat
@@ -420,7 +425,7 @@
                     changePasswordModal.classList.add('hidden');
                 });
             }
-            
+
             const activeParkingStart = "{{ $activeParking->start ?? '' }}";
             if (activeParkingStart) {
                 updateDuration(activeParkingStart);
@@ -438,13 +443,12 @@
 
             @if (session('payment_details'))
                 paymentModal.classList.remove('hidden');
-                // Jika modal muncul dari refresh, pastikan polling tidak langsung jalan kecuali setelah klik QR
             @endif
 
             if (btnCash) {
                 btnCash.addEventListener('click', () => {
                     const parkingId = btnCash.dataset.parkingId;
-                    clearInterval(pollingIntervalId); // Hentikan polling jika beralih ke tunai
+                    clearInterval(pollingIntervalId);
 
                     fetch(`{{ url('parking') }}/${parkingId}/complete-cash`, {
                             method: 'POST',
