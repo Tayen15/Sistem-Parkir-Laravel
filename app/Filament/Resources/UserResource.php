@@ -25,6 +25,10 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?string $modelLabel = 'Pengguna';
+    protected static ?string $pluralModelLabel = 'Daftar Pengguna';
+
     protected static ?string $navigationGroup = 'Manajemen Pengguna';
     protected static ?int $navigationSort = 1;
 
@@ -44,9 +48,9 @@ class UserResource extends Resource
                     ->password()
                     ->revealable()
                     ->maxLength(256)
-                    ->dehydrateStateUsing(fn (string $state): string => bcrypt($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->required(fn (string $operation): bool => $operation === 'create'),
+                    ->dehydrateStateUsing(fn(string $state): string => bcrypt($state))
+                    ->dehydrated(fn(?string $state): bool => filled($state))
+                    ->required(fn(string $operation): bool => $operation === 'create'),
                 Select::make('role')
                     ->label('Role User')
                     ->searchable()
@@ -59,7 +63,7 @@ class UserResource extends Resource
                             ->maxLength(10)
                             ->unique(table: Role::class, ignoreRecord: true),
                     ])
-                    ->createOptionUsing(fn (array $data): int => Role::create($data)->id),
+                    ->createOptionUsing(fn(array $data): int => Role::create($data)->id),
                 Toggle::make('has_changed_password')
                     ->label('Sudah Ganti Password Awal')
                     ->default(false),
@@ -79,15 +83,32 @@ class UserResource extends Resource
                 TextColumn::make('role_rel.name')
                     ->label('Roles')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'User' => 'success',
                         'Admin' => 'danger',
                         default => 'gray',
-                    }) 
+                    })
                     ->searchable(),
                 IconColumn::make('has_changed_password')
                     ->label('Pass. Berubah')
                     ->boolean(),
+                TextColumn::make('sessions.user_agent')
+                    ->label('User Agent Terakhir')
+                    ->limit(50)
+                    ->placeholder('N/A')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('sessions.ip_address')
+                    ->label('IP Terakhir')
+                    ->placeholder('N/A')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('sessions.last_activity')
+                    ->label('Aktif Terakhir')
+                    ->dateTime('d/m/Y H:i:s')
+                    ->placeholder('N/A')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
